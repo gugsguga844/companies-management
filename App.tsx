@@ -1,17 +1,16 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button } from 'react-native';
-import useCounter from './states/useCounter';
+import { StatusBar } from "expo-status-bar";
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
+
+import Home from "./src/app";
+
+import Constants from "expo-constants";
 
 export default function App() {
-  const { count, increment, reset } = useCounter();
-
   return (
     <View style={styles.container}>
-      <Text>{count}</Text> 
-      
-      <Button onPress={increment} title="Increment" />
-      <Button onPress={reset} title="Reset" />
       <StatusBar style="auto" />
+      <Home />
     </View>
   );
 }
@@ -19,8 +18,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    marginTop: Constants.statusBarHeight,
   },
 });
+
