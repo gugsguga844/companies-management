@@ -24,7 +24,7 @@ Entre as principais funcionalidades, estão:
 ## Planejamento de Sprints
 
 ### Semana 1 - Setup Inicial
-- [] Implementação de mocks para testes.
+- [x] Implementação de mocks para testes.
 - [] Implementação da tela de login.
 - [] Implementação da tela inicial.
 - [] Implementação da tela de cadastro de empresas. 
