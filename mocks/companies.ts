@@ -5,6 +5,7 @@ export const companies_list = [
         name: "Empresa 1",
         cnpj: "12345678901234",
         business_activity: "Software Development",
+        payment: 1200,
     },
     {
         accounting_firm_id: 1,
@@ -12,6 +13,7 @@ export const companies_list = [
         name: "Empresa 2",
         cnpj: "12345678901234",
         business_activity: "Software Development",  
+        payment: 1600,
     },
     {
         accounting_firm_id: 1,
@@ -19,6 +21,7 @@ export const companies_list = [
         name: "Empresa 3",
         cnpj: "12345678901234",
         business_activity: "Software Development",
+        payment: 1200,
     },
     {
         accounting_firm_id: 2,
@@ -26,6 +29,7 @@ export const companies_list = [
         name: "Empresa 4",
         cnpj: "12345678901234",
         business_activity: "Software Development",
+        payment: 600,
     },
     {
         accounting_firm_id: 2,
@@ -33,6 +37,7 @@ export const companies_list = [
         name: "Empresa 5",
         cnpj: "12345678901234",
         business_activity: "Software Development",
+        payment: 600,
     },
     {
         accounting_firm_id: 2,
@@ -40,6 +45,7 @@ export const companies_list = [
         name: "Empresa 6",
         cnpj: "12345678901234",
         business_activity: "Software Development",
+        payment: 800,
     },
     {
         accounting_firm_id: 3,
@@ -47,6 +53,7 @@ export const companies_list = [
         name: "Empresa 7",
         cnpj: "12345678901234",
         business_activity: "Software Development",
+        payment: 1200,
     }
 ] 
 
