@@ -3,17 +3,22 @@ import React, { useState } from 'react'
 import FormInput from './form-components/FormInput'
 import FormButton from './form-components/FormButton'
 import { router } from 'expo-router'
+import useAuthStore from '../../hooks/useAuthStore'
+import { accounting_firm } from '../../mocks/accounting_firm'
 
 export default function FormCard() {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
+  const { login } = useAuthStore()
 
-  // const handleLogin = () => {
-  //   console.log(email, password)
-  // }
-
-  const handleLoginTemp = () => {
-    router.push('/(auth)/(home)/home')
+  const handleLogin = () => {
+    const firm = accounting_firm.find(f => f.email === email && f.password === password)
+    if (firm) {
+      login({email: firm.email, name: firm.name})
+      router.push('/(auth)/(home)/home')
+    } else {
+      alert("Email ou senha inválidos")
+    }
   }
 return (
     <View style={styles.container}>
@@ -30,7 +35,7 @@ return (
         secureTextEntry 
         iconName="lock" />
       <Text style={styles.text}>Esqueceu a senha?</Text>
-      <FormButton text="Entrar" onPress={handleLoginTemp} />
+      <FormButton text="Entrar" onPress={handleLogin} />
     </View>
   )
 }

@@ -36,6 +36,14 @@ export default function Layout() {
                     <FontAwesome name="dollar" size={20} color={color} />
                 )
             }} />
+        <Tabs.Screen 
+            name="(settings)" 
+            options={{
+                title: 'Configurações',
+                tabBarIcon: ({ color }) => (
+                    <FontAwesome name="cog" size={20} color={color} />
+                )
+            }} />
     </Tabs>
 )
 }
