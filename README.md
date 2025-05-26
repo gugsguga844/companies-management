@@ -22,18 +22,19 @@ Entre as principais funcionalidades, estão:
 [Modelagem](https://drive.google.com/file/d/1UXguQqn7jMW3oDRZE4fc5qHFBx_E4eQy/view?usp=sharing)
 
 ## Planejamento de Sprints
+Obs: Criado em 17/05/2025
 
 ### Semana 1 - Setup Inicial
 - [x] Implementação de mocks para testes.
-- [] Implementação da tela de login.
-- [] Implementação da tela inicial.
+- [X] Implementação da tela de login.
+- [X] Implementação da tela inicial.
 - [] Implementação da tela de cadastro de empresas. 
-- [] Implementação do menu de navegação.
+- [X] Implementação do menu de navegação.
 - [] Estilização com NativeWind.
-- [] Implementação de Rotas com Expo Router.
+- [X] Implementação de Rotas com Expo Router.
 
 ### Semana 2 - Gerenciamento de Estados e Telas
-- [] Implementação de gerenciamento de estados com Zustand.
+- [X] Implementação de gerenciamento de estados com Zustand.
 - [] Implementação da tela de relatórios
 - [] Implementação da tela de honorários
 
