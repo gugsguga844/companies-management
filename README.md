@@ -50,3 +50,22 @@ Obs: Criado em 17/05/2025
 
 ### Semana 6 - Empacotamento do APP para publicação
 - [] Criação de build para Android.
+
+## Atualizações desde o último checkpoint
+
+### Semana 1
+
+Checkpoint 1 finalizado no dia 17/05/2025.
+Desde então, foram feitas as seguintes alterações:
+
+- Criação de mocks para testes.
+Sem banco de dados por enquanto, criei mocks para simular as informações que seriam salvas no banco de dados.
+- Criação das telas utilizando Expo Router
+Aqui, utilizei Stack para a maioria das telas e Tabs para o menu de navegação.
+- Implementação de gerenciamento de estados com Zustand
+Aqui, criei um state chamado useAuthStore para salvar as informações do usuário logado.
+As informações salvas vem do mock de accounting_firm.
+- Criação de componentes reutilizáveis
+Criei componentes reutilizáveis para todas as telas implementadas até aqui, seguindo os conceitos da aula.
+Exemplos: para a tela de login, dividi a exibição em 3 componentes principais: input, button e card.
+
