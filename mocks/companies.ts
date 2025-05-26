@@ -1,4 +1,4 @@
-export const companies = [
+export const companies_list = [
     {
         accounting_firm_id: 1,
         id: 1,
