@@ -4,14 +4,15 @@ import React from 'react'
 type FormButtonProps = {
     text: string;
     onPress?: () => void;
+    isLoading?: boolean;
 }
 
-export default function FormButton({ text, onPress }: FormButtonProps) {
+export default function FormButton({ text, onPress, isLoading }: FormButtonProps) {
   return (
     <View style={styles.container}>
-        <TouchableHighlight style={styles.button} onPress={onPress}>
-            <Text style={styles.buttonText}>{text}</Text>
-        </TouchableHighlight>
+      <TouchableHighlight style={styles.button} onPress={onPress} disabled={isLoading}>
+        <Text style={styles.buttonText}>{isLoading ? 'Carregando...' : text}</Text>
+      </TouchableHighlight>
     </View>
   )
 }

@@ -10,7 +10,7 @@ export default function FormCard() {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
 
-  const { apiLogin } = useAuthStore();
+  const { apiLogin, isLoading } = useAuthStore();
 
   const handleLogin = async () => {
     try {
@@ -36,7 +36,7 @@ return (
         secureTextEntry 
         iconName="lock" />
       <Text style={styles.text}>Esqueceu a senha?</Text>
-      <FormButton text="Entrar" onPress={handleLogin} />
+      <FormButton text="Entrar" onPress={handleLogin} isLoading={isLoading} />
     </View>
   )
 }
