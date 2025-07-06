@@ -4,22 +4,23 @@ import FormInput from './form-components/FormInput'
 import FormButton from './form-components/FormButton'
 import { router } from 'expo-router'
 import useAuthStore from '../../hooks/useAuthStore'
-import { accounting_firm } from '../../mocks/accounting_firm'
+import { Alert } from 'react-native'
 
 export default function FormCard() {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
-  const { login } = useAuthStore()
 
-  const handleLogin = () => {
-    const firm = accounting_firm.find(f => f.email === email && f.password === password)
-    if (firm) {
-      login({email: firm.email, name: firm.name})
+  const { apiLogin, isLoading } = useAuthStore();
+
+  const handleLogin = async () => {
+    try {
+      await apiLogin(email, password);
       router.push('/(auth)/(home)/home')
-    } else {
-      alert("Email ou senha inválidos")
+    } catch (error) {
+      Alert.alert('Falha no Login', (error as Error).message);
     }
   }
+
 return (
     <View style={styles.container}>
       <FormInput 
@@ -35,7 +36,7 @@ return (
         secureTextEntry 
         iconName="lock" />
       <Text style={styles.text}>Esqueceu a senha?</Text>
-      <FormButton text="Entrar" onPress={handleLogin} />
+      <FormButton text="Entrar" onPress={handleLogin} isLoading={isLoading} />
     </View>
   )
 }

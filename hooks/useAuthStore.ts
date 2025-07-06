@@ -1,38 +1,43 @@
 import { create } from "zustand";
-import { immer } from "zustand/middleware/immer";
+import * as SecureStore from "expo-secure-store";
+import { login } from "../services/api";
 
-
-type AuthStore = {
-    firm: {
-        email: string;
-        name: string;
-    };
-    isAuthenticated: boolean;
+interface AuthStore {
+  token: string | null;
+  apiLogin: (email: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
+  isLoading: boolean;
 }
 
-type Actions = {
-    login: (firm: AuthStore["firm"]) => void;
-    logout: () => void;
-}
+const useAuthStore = create<AuthStore>()((set) => ({
+  token: null,
+  isLoading: false,
 
-const useAuthStore = create<AuthStore & Actions>()(immer((set) => ({
-    firm: {
-        email: "",
-        name: ""
-    },
-    isAuthenticated: false,
-    login: (firm) => {
-        set(state => {
-            state.firm = firm;
-            state.isAuthenticated = true;
-        });
-    },
-    logout: () => {
-        set(state => {
-            state.firm = { email: "", name: "" };
-            state.isAuthenticated = false;
-        });
-    },
-})))
+  apiLogin: async (email: string, password: string) => {
+      set({ isLoading: true });
+      try {
+        const responseData = await login({ email, password });
+        const { access_token } = responseData;
 
+        await SecureStore.setItemAsync('user_token', access_token);
+
+        set({ token: access_token, isLoading: false });
+      } catch (error) {
+        set({ isLoading: false })
+        console.error('Erro ao logar:', error);
+        throw new Error('Email ou senha inválidos.');
+      }
+  },
+
+  logout: async () => {
+    try {
+      await SecureStore.deleteItemAsync('user_token');
+      set({ token: null, isLoading: false });
+    } catch (error) {
+      console.error('Erro ao deslogar:', error);
+    }
+  },
+
+}))
+    
 export default useAuthStore;

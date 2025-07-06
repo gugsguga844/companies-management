@@ -1,21 +1,21 @@
 import { View, Text, StyleSheet } from "react-native";
-import React, { ReactNode } from "react";
+import React from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 interface CompanyCardProps {
   name: string;
   cnpj: string;
-  business_activity: string;
-  payment: number;
+  business_activity: string | null;
+  payment: string;
 }
 
 function formatCNPJ(cnpj: string): string {
   return cnpj.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5");
 }
 
-function formatPayment(payment: number): string {
-  return payment.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-}
+// function formatPayment(payment: number): string {
+//   return payment.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+// }
 
 export default function CompanyCard({
   name,
@@ -39,7 +39,8 @@ export default function CompanyCard({
         </View>
         <View style={styles.bodyTitleContainer}>
           <FontAwesome name="dollar" size={16} color="#000" />
-          <Text style={styles.title}>Honorários: <Text style={styles.children}>{formatPayment(payment)}</Text></Text>
+          {/* <Text style={styles.title}>Honorários: <Text style={styles.children}>{formatPayment(payment)}</Text></Text> */}
+          <Text style={styles.title}>Honorários: <Text style={styles.children}>{payment}</Text></Text>
         </View>
       </View>
     </View>
