@@ -42,7 +42,7 @@ Obs: Criado em 17/05/2025
 ~~- [] Implementação de banco de dados com SQLite.~~
 
 ### Semana 4 - Validação de Dados com ZOD
-- [] Implementação de validação de dados com ZOD.
+- [X] Implementação de validação de dados com ZOD.
 - [x] Implementação das demais telas.
 
 ### Semana 5 - Implementação de Testes Unitários
@@ -69,9 +69,11 @@ Exemplos: para a tela de login, dividi a exibição em 3 componentes principais:
 
 ## Atualizações desde o checkpoint 2
 
-- Consumo de API desenvolvida com NestJS.
+- Integração à uma [API](companies-management-api.onrender.com/API) desenvolvida com NestJS.
 - Adição da tela de cadastro de empresas.
 - Implementação da dashboard.
 - Implementação da tela de empresas.
 - Implementação da tela de honorários.
 - Melhoria e adição de estilização em todas as implementações
+- Validação de dados de formulário com ZOD
+- [GitHub da API](https://github.com/gugsguga844/companies-management-api)
