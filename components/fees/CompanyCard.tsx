@@ -18,6 +18,7 @@ interface EmpresaCardProps {
   honorarioAjustado: number
   onSelect: () => void
   onHonorarioChange: (valor: string) => void
+  onRemovePayment?: () => void
 }
 
 export default function EmpresaCard({
@@ -26,6 +27,7 @@ export default function EmpresaCard({
   honorarioAjustado,
   onSelect,
   onHonorarioChange,
+  onRemovePayment,
 }: EmpresaCardProps) {
   const [editandoHonorario, setEditandoHonorario] = useState(false)
   const [valorTemp, setValorTemp] = useState(honorarioAjustado?.toString() || empresa.honorarioBase.toString())
@@ -111,6 +113,12 @@ export default function EmpresaCard({
                   <Ionicons name="checkmark" size={12} color="#059669" />
                   <Text style={styles.paidBadgeText}>Pago em {empresa.dataPagamento}</Text>
                 </View>
+                {onRemovePayment && (
+                  <TouchableOpacity style={styles.removeButton} onPress={onRemovePayment}>
+                    <Ionicons name="close-circle" size={16} color="#DC2626" />
+                    <Text style={styles.removeButtonText}>Remover</Text>
+                  </TouchableOpacity>
+                )}
               </View>
             )}
           </View>
@@ -263,6 +271,22 @@ const styles = StyleSheet.create({
   paidBadgeText: {
     fontSize: 12,
     color: "#059669",
+    fontWeight: "600",
+  },
+  removeButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#FEF2F2",
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 12,
+    alignSelf: "flex-start",
+    gap: 4,
+    marginTop: 4,
+  },
+  removeButtonText: {
+    fontSize: 12,
+    color: "#DC2626",
     fontWeight: "600",
   },
 })
