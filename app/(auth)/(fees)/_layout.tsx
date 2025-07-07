@@ -5,6 +5,8 @@ export default function _layout() {
   return (
     <Stack>
       <Stack.Screen name="fees" options={{ headerShown: false }} />
+
+      <Stack.Screen name="registerFees" options={{ headerShown: false }} />
     </Stack>
   );
 }

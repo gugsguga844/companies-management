@@ -36,3 +36,33 @@ export async function getCompanies() {
     throw error
   }
 }
+
+export async function getMonthlyRevenue() {
+  try {
+    const response = await api.get('/payments/monthly-revenue')
+    return response.data.data
+  } catch (error) {
+    console.error('Erro ao buscar receita mensal:', error)
+    throw error
+  }
+}
+
+export async function generatePayments(payload: any) {
+  try {
+    const response = await api.post('/payments/generate', payload)
+    return response.data.data
+  } catch (error) {
+    console.error('Erro ao gerar pagamentos:', error)
+    throw error
+  }
+}
+
+export async function getPayments() {
+  try {
+    const response = await api.get('/payments')
+    return response.data.data
+  } catch (error) {
+    console.error('Erro ao buscar pagamentos:', error)
+    throw error
+  }
+}
