@@ -28,7 +28,7 @@ Obs: Criado em 17/05/2025
 - [x] Implementação de mocks para testes.
 - [X] Implementação da tela de login.
 - [X] Implementação da tela inicial.
-- [] Implementação da tela de cadastro de empresas. 
+- [x] Implementação da tela de cadastro de empresas. 
 - [X] Implementação do menu de navegação.
 - [] Estilização com NativeWind.
 - [X] Implementação de Rotas com Expo Router.
@@ -36,14 +36,14 @@ Obs: Criado em 17/05/2025
 ### Semana 2 - Gerenciamento de Estados e Telas
 - [X] Implementação de gerenciamento de estados com Zustand.
 - [] Implementação da tela de relatórios
-- [] Implementação da tela de honorários
+- [x] Implementação da tela de honorários
 
 ### Semana 3 - Persistência de Dados Local.
-- [] Implementação de banco de dados com SQLite.
+~~- [] Implementação de banco de dados com SQLite.~~
 
 ### Semana 4 - Validação de Dados com ZOD
 - [] Implementação de validação de dados com ZOD.
-- [] Implementação das demais telas.
+- [x] Implementação das demais telas.
 
 ### Semana 5 - Implementação de Testes Unitários
 - [] Implementação de testes unitários com Jest.
@@ -52,8 +52,6 @@ Obs: Criado em 17/05/2025
 - [] Criação de build para Android.
 
 ## Atualizações desde o último checkpoint
-
-### Semana 1
 
 Checkpoint 1 finalizado no dia 17/05/2025.
 Desde então, foram feitas as seguintes alterações:
@@ -69,3 +67,11 @@ As informações salvas vem do mock de accounting_firm.
 Criei componentes reutilizáveis para todas as telas implementadas até aqui, seguindo os conceitos da aula.
 Exemplos: para a tela de login, dividi a exibição em 3 componentes principais: input, button e card.
 
+## Atualizações desde o checkpoint 2
+
+- Consumo de API desenvolvida com NestJS.
+- Adição da tela de cadastro de empresas.
+- Implementação da dashboard.
+- Implementação da tela de empresas.
+- Implementação da tela de honorários.
+- Melhoria e adição de estilização em todas as implementações
