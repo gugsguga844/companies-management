@@ -9,6 +9,7 @@ import {
   TextInput,
   Alert,
   ActivityIndicator,
+  Modal,
 } from "react-native"
 import { Ionicons } from "@expo/vector-icons"
 import { router } from "expo-router"
@@ -31,7 +32,7 @@ interface EmpresaProcessada {
 }
 
 export default function RegisterFeesScreen() {
-  const { paymentsList, fetchPayments, isLoading } = usePaymentStore()
+  const { paymentsList, fetchPayments, updatePaymentStatus, removePaymentStatus, isLoading } = usePaymentStore()
 
   // Estado para controle do mês selecionado
   const [mesAtual, setMesAtual] = useState(new Date())
@@ -43,7 +44,7 @@ export default function RegisterFeesScreen() {
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedEmpresas, setSelectedEmpresas] = useState<{ [key: number]: boolean }>({})
   const [honorariosAjustados, setHonorariosAjustados] = useState<{ [key: number]: number }>({})
-  const [dataPagamento, setDataPagamento] = useState(format(new Date(), "yyyy-MM-dd"))
+  const [dataPagamento, setDataPagamento] = useState(new Date().toISOString())
   const [showMonthSelector, setShowMonthSelector] = useState(false)
 
   // Carregar dados da API ao montar o componente
@@ -173,6 +174,32 @@ export default function RegisterFeesScreen() {
     }))
   }
 
+  const handleRemovePayment = (empresa: EmpresaProcessada) => {
+    Alert.alert(
+      "Remover Pagamento",
+      `Deseja remover o pagamento de ${empresa.nome}?`,
+      [
+        {
+          text: "Cancelar",
+          style: "cancel",
+        },
+        {
+          text: "Remover",
+          style: "destructive",
+          onPress: async () => {
+            try {
+              await removePaymentStatus(empresa.paymentId)
+              Alert.alert("Sucesso!", "Pagamento removido com sucesso!")
+            } catch (error) {
+              console.error("Erro ao remover pagamento:", error)
+              Alert.alert("Erro", "Não foi possível remover o pagamento. Tente novamente.")
+            }
+          },
+        },
+      ]
+    )
+  }
+
   const handleRegistrarPagamentos = () => {
     if (totalSelecionado === 0) {
       Alert.alert("Atenção", "Selecione pelo menos uma empresa para registrar o pagamento.")
@@ -191,20 +218,26 @@ export default function RegisterFeesScreen() {
           text: "Confirmar",
           onPress: async () => {
             try {
-              // Aqui seria implementada a lógica para salvar os pagamentos na API
-              // Por exemplo, chamar uma função updatePayments do store
+              // Obter empresas selecionadas
+              const empresasSelecionadas = filteredEmpresas.filter((empresa) => selectedEmpresas[empresa.id])
+              
+              // Atualizar status de cada pagamento selecionado
+              const promises = empresasSelecionadas.map((empresa) => 
+                updatePaymentStatus(empresa.paymentId, "PAGO", dataPagamento)
+              )
+              
+              await Promise.all(promises)
 
               Alert.alert("Sucesso!", `${totalSelecionado} pagamentos registrados com sucesso!`, [
                 {
                   text: "OK",
                   onPress: () => {
-                    // Recarregar dados após salvar
-                    fetchPayments()
                     router.back()
                   },
                 },
               ])
             } catch (error) {
+              console.error("Erro ao registrar pagamentos:", error)
               Alert.alert("Erro", "Não foi possível registrar os pagamentos. Tente novamente.")
             }
           },
@@ -341,6 +374,7 @@ export default function RegisterFeesScreen() {
             honorarioAjustado={honorariosAjustados[empresa.id]}
             onSelect={() => handleSelectEmpresa(empresa.id)}
             onHonorarioChange={(valor: string) => handleHonorarioChange(empresa.id, valor)}
+            onRemovePayment={empresa.status === "Pago" ? () => handleRemovePayment(empresa) : undefined}
           />
         )}
       />
@@ -354,6 +388,17 @@ export default function RegisterFeesScreen() {
               <Text style={styles.totalValue}>
                 {totalSelecionado} empresas - R$ {valorSelecionado.toLocaleString("pt-BR")}
               </Text>
+            </View>
+
+            {/* Data do Pagamento */}
+            <View style={styles.dateSelector}>
+              <Text style={styles.dateLabel}>Data do Pagamento:</Text>
+              <View style={styles.dateDisplay}>
+                <Ionicons name="calendar-outline" size={16} color="#6B7280" />
+                <Text style={styles.dateText}>
+                  {format(new Date(dataPagamento), "dd/MM/yyyy HH:mm")}
+                </Text>
+              </View>
             </View>
 
             <TouchableOpacity style={styles.registerButton} onPress={handleRegistrarPagamentos}>
@@ -371,6 +416,8 @@ export default function RegisterFeesScreen() {
         onSelect={selecionarMesAno}
         onClose={() => setShowMonthSelector(false)}
       />
+
+
     </SafeAreaView>
   )
 }
@@ -547,6 +594,41 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: "#111827",
   },
+  dateSelector: {
+    alignItems: "center",
+    gap: 8,
+  },
+  dateLabel: {
+    fontSize: 14,
+    color: "#6B7280",
+  },
+  dateButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: "#D1D5DB",
+    backgroundColor: "white",
+  },
+  dateDisplay: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: "#D1D5DB",
+    backgroundColor: "white",
+  },
+  dateText: {
+    fontSize: 14,
+    color: "#111827",
+    fontWeight: "500",
+  },
   registerButton: {
     backgroundColor: "#059669",
     paddingVertical: 14,
@@ -554,6 +636,59 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   registerButtonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  datePickerOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  datePickerContainer: {
+    backgroundColor: "white",
+    borderRadius: 12,
+    padding: 20,
+    width: "80%",
+    maxWidth: 300,
+  },
+  datePickerHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  datePickerTitle: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#111827",
+  },
+  datePickerContent: {
+    marginBottom: 20,
+  },
+  dateInput: {
+    borderWidth: 1,
+    borderColor: "#D1D5DB",
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 12,
+    fontSize: 16,
+    color: "#111827",
+    marginBottom: 8,
+  },
+  datePickerHint: {
+    fontSize: 12,
+    color: "#6B7280",
+    textAlign: "center",
+  },
+  datePickerButton: {
+    backgroundColor: "#059669",
+    paddingVertical: 12,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  datePickerButtonText: {
     color: "white",
     fontSize: 16,
     fontWeight: "600",

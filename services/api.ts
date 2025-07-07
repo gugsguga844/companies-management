@@ -37,9 +37,45 @@ export async function getCompanies() {
   }
 }
 
-export async function getMonthlyRevenue() {
+export async function createCompany(payload: any) {
   try {
-    const response = await api.get('/payments/monthly-revenue')
+    console.log('🌐 API - Payload sendo enviado:', JSON.stringify(payload, null, 2));
+    const response = await api.post('/companies', payload)
+    console.log('🌐 API - Resposta recebida:', JSON.stringify(response.data, null, 2));
+    return response.data.data
+  } catch (error) {
+    console.error('Erro ao criar empresa:', error)
+    throw error
+  }
+}
+
+export async function updateCompany(id: number, payload: any) {
+  try {
+    const response = await api.put(`/companies/${id}`, payload)
+    return response.data.data
+  } catch (error) {
+    console.error('Erro ao atualizar empresa:', error)
+    throw error
+  }
+}
+
+export async function deleteCompany(id: number) {
+  try {
+    const response = await api.delete(`/companies/${id}`)
+    return response.data.data
+  } catch (error) {
+    console.error('Erro ao deletar empresa:', error)
+    throw error
+  }
+}
+
+export async function getMonthlyRevenue(year?: number, month?: number) {
+  try {
+    const currentDate = new Date()
+    const currentYear = year || currentDate.getFullYear()
+    const currentMonth = month || currentDate.getMonth() + 1
+    
+    const response = await api.get(`/payments/monthly-revenue?year=${currentYear}&month=${currentMonth}`)
     return response.data.data
   } catch (error) {
     console.error('Erro ao buscar receita mensal:', error)
@@ -63,6 +99,30 @@ export async function getPayments() {
     return response.data.data
   } catch (error) {
     console.error('Erro ao buscar pagamentos:', error)
+    throw error
+  }
+}
+
+export async function changePaymentStatus(id: number, payload: any) {
+  try {
+    const response = await api.patch(`/payments/${id}`, payload)
+    return response.data.data
+  } catch (error) {
+    console.error('Erro ao alterar status do pagamento:', error)
+    throw error
+  }
+}
+
+export async function removePayment(id: number) {
+  try {
+    // Usar PATCH para "remover" o pagamento (voltar para PENDENTE e limpar payment_date)
+    const response = await api.patch(`/payments/${id}`, {
+      status: 'PENDENTE',
+      payment_date: null
+    })
+    return response.data.data
+  } catch (error) {
+    console.error('Erro ao remover pagamento:', error)
     throw error
   }
 }
